@@ -3,4 +3,4 @@ Jupyter notebook to download Human Transcription Factor (TF)-Target Reference Ne
 
 # Data Sources
 
-![data_sources](https://user-images.githubusercontent.com/47250394/166213486-9d6433be-bb86-438d-9662-b7f4536e8965.png)
+<img width="860" alt="data_sources" src="https://user-images.githubusercontent.com/47250394/166213733-5f03ed64-ced4-4e98-8aee-73c73c51e430.png">
