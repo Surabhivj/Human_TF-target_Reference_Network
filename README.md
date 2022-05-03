@@ -1,7 +1,8 @@
 # Human_TF-target_Reference_Network
-This Jupyter notebook combines Human Transcription Factor (TF)-Target interactions from different data sources and builds a reference network (Gold-standard). 
 
-This reference network can be used as a gold-standard network to compare the performace of Gene Regulatory Network (GRN) inference methods.
+This Jupyter notebook collects Protein-Protein (PPI), Transcription Factor(TF)-Target interactions for Human from different data sources with their latest update.
+
+We build here, the Human reference network of TF-targets and PPIs that can be used as a gold-standard network to compare the performace of Gene Regulatory Network (GRN)  and PPI inference methods repectively.
  
 
 # Data Sources
