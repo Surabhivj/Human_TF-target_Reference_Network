@@ -160,6 +160,25 @@ hTFtarget_net_dat1 = hTFtarget_net_dat[['protein1','protein2','Source']]
 hTFtarget_net_dat2 = hTFtarget_net_dat[['protein2','protein1','Source']]
 hTFtarget_net_final = pd.concat([hTFtarget_net_dat1, hTFtarget_net_dat2]).reset_index(drop=True)
 
+TRANSFAC_curated_network_url = "https://maayanlab.cloud/static/hdfs/harmonizome/data/transfac/gene_attribute_edges.txt.gz"
+TRANSFAC_curated_url_file = "TRANSFAC_PPI_" + date + '.txt.gz'
+response = wget.download(TRANSFAC_curated_network_url, TRANSFAC_curated_url_file)
+TRANSFAC_curated_net_dat = pd.read_csv(TRANSFAC_curated_url_file, sep= '\t',low_memory=False)
+TRANSFAC_curated_net_dat = TRANSFAC_curated_net_dat[['target', 'source']]
+TRANSFAC_curated_net_dat = TRANSFAC_curated_net_dat.rename(columns={'target' :'protein1','source':'protein2'})
+TRANSFAC_curated_net_dat['Source'] = 'TRANSFAC_C'
+TRANSFAC_curated_final = TRANSFAC_curated_net_dat[TRANSFAC_curated_net_dat['protein1'].isin(TF_list)].drop_duplicates()
+
+TRANSFAC_P_network_url = "https://maayanlab.cloud/static/hdfs/harmonizome/data/transfacpwm/gene_attribute_edges.txt.gz"
+TRANSFAC_P_url_file = "TRANSFAC_PPI_P_" + date + '.txt.gz'
+response = wget.download(TRANSFAC_P_network_url, TRANSFAC_P_url_file)
+TRANSFAC_P_net_dat = pd.read_csv(TRANSFAC_P_url_file, sep= '\t',low_memory=False)
+TRANSFAC_P_net_dat = TRANSFAC_P_net_dat[['target', 'source']]
+TRANSFAC_P_net_dat = TRANSFAC_P_net_dat.rename(columns={'target' :'protein1','source':'protein2'})
+TRANSFAC_P_net_dat['Source'] = 'TRANSFAC_P'
+TRANSFAC_P_final = TRANSFAC_P_net_dat[TRANSFAC_P_net_dat['protein1'].isin(TF_list)].drop_duplicates()
+
+
 Trrust_net_final = Trrust_ppi_dat[Trrust_ppi_dat['protein1'].isin(TF_list)].drop_duplicates()
 string_net_final = string_net_final[string_net_final['protein1'].isin(TF_list)].drop_duplicates()
 biogrid_net_final = biogrid_net_final[biogrid_net_final['protein1'].isin(TF_list)].drop_duplicates()
@@ -169,7 +188,7 @@ hTFtarget_net_final = hTFtarget_net_final[hTFtarget_net_final['protein1'].isin(T
 
 string_net_final = string_net_final[string_net_final['protein1'].isin(TF_list)].drop_duplicates()
 
-dat=pd.concat([Trrust_net_final,hTFtarget_net_final,IntAct_net_final,HelkaGoos_net_final,biogrid_net_final,string_net_final]).reset_index(drop=True)
+dat=pd.concat([Trrust_net_final,hTFtarget_net_final,IntAct_net_final,HelkaGoos_net_final,biogrid_net_final,string_net_final,TRANSFAC_P_final,TRANSFAC_curated_final]).reset_index(drop=True)
 dat = dat.groupby(['protein1','protein2'])["Source"].apply(lambda item:', '.join(item)).reset_index()
 
 Final_edge_file_name = "Human_TFtarget_GS_" + date + ".csv"
